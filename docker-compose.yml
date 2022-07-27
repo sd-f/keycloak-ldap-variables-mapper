@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:15.0.2
+    container_name: klvm_keycloak
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DEBUG: "true"
+      DEBUG_PORT: "*:5015"
+      KEYCLOAK_IMPORT: "/tmp/realm-export.json"
+    ports:
+      - "8081:8080"
+      - "5015:5015"
+    volumes:
+      - ./target/keycloak-ldap-variables-mapper-1.0.0-SNAPSHOT.jar:/opt/jboss/keycloak/standalone/deployments/keycloak-ldap-variables-mapper-1.0.0-SNAPSHOT.jar
+      - ./keycloak/realm-export.json:/tmp/realm-export.json
+
+  ldap:
+    image: osixia/openldap:1.4.0
+    container_name: klvm_ldap
+    environment:
+      LDAP_LOG_LEVEL: 512
+      LDAP_DOMAIN: test
+      LDAP_BASE_DN: "o=test"
+      LDAP_ADMIN_PASSWORD: changeme
+      LDAP_CONFIG_PASSWORD: changeme
+      LDAP_TLS: "false"
+      LDAP_KEEP_EXISTING_CONFIG: "false"
+    ports:
+      - "3389:389"
