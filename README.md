@@ -34,3 +34,7 @@ WFLYSRV0010: Deployed "keycloak-ldap-variables-mapper-1.0.0.jar" (runtime-name :
 ```
 
 Now you can use `Mapper` in your LDAP User Federation Configuration.
+
+![Mapper Config](doc/screen_01.png)
+
+![Mapped Value](doc/screen_02.png)
